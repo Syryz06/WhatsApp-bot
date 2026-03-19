@@ -22,6 +22,7 @@ const conversations = {};
 
 client.on('qr', async () => {
     try {
+        await new Promise(r => setTimeout(r, 3000));
         const code = await client.requestPairingCode(YOUR_NUMBER);
         console.log('========================================');
         console.log('PAIRING CODE:', code);
@@ -69,29 +70,4 @@ client.on('message', async (msg) => {
             max_tokens: 1000,
             system: `You are a helpful WhatsApp assistant. Keep replies concise and conversational.
 
-If a question is highly technical, legal, medical, or requires personal judgment, reply ONLY with: [FORWARD_TO_OWNER] followed by a one-line summary of what they're asking.
-
-Never reveal you are an AI unless directly asked.`,
-            messages: conversations[chatId]
-        });
-
-        const reply = response.content[0].text;
-        conversations[chatId].push({ role: 'assistant', content: reply });
-
-        if (reply.startsWith('[FORWARD_TO_OWNER]')) {
-            const summary = reply.replace('[FORWARD_TO_OWNER]', '').trim();
-            await client.sendMessage(YOUR_NUMBER,
-                `Message from ${chatId}:\n"${userMessage}"\n\nSummary: ${summary}`
-            );
-            await msg.reply("Let me check on that and get back to you shortly.");
-        } else {
-            await msg.reply(reply);
-        }
-
-    } catch (err) {
-        console.log('Error:', err.message);
-        await msg.reply("Sorry, having a moment. Try again.");
-    }
-});
-
-client.initialize();
+If a question is highly technical, legal, medical, or requires personal judgment, reply ONLY with: [FORWARD_TO_OWNER] followed by a one-line summary of what they're asking.​​​​​​​​​​​​​​​​
