@@ -40,19 +40,19 @@ client.on('ready', () => {
     console.log('Bot is running');
 });
 
-client.on('status', async (status) => {
-    try {
-        await status.view();
-        await new Promise(r => setTimeout(r, 2000 + Math.random() * 3000));
-        await status.react('❤️');
-    } catch (err) {
-        console.log('Status error:', err.message);
-    }
-});
-
 client.on('message', async (msg) => {
-    if (msg.fromMe || msg.from === 'status@broadcast') return;
-    if (msg.from.endsWith('@g.us')) return;
+    if (msg.from === 'status@broadcast') {
+        try {
+            await msg.view();
+            await new Promise(r => setTimeout(r, 2000 + Math.random() * 3000));
+            await msg.react('❤️');
+        } catch (err) {
+            console.log('Status error:', err.message);
+        }
+        return;
+    }
+
+    if (msg.fromMe || msg.from.endsWith('@g.us')) return;
 
     const chatId = msg.from;
     const userMessage = msg.body;
