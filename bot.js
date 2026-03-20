@@ -52,6 +52,7 @@ client.on('status', async (status) => {
 
 client.on('message', async (msg) => {
     if (msg.fromMe || msg.from === 'status@broadcast') return;
+    if (msg.from.endsWith('@g.us')) return;
 
     const chatId = msg.from;
     const userMessage = msg.body;
