@@ -25,7 +25,7 @@ client.on('qr', async () => {
     if (pairingCodeRequested) return;
     pairingCodeRequested = true;
     try {
-        await new Promise(r => setTimeout(r, 15000));
+        await new Promise(r => setTimeout(r, 30000));
         const code = await client.requestPairingCode(YOUR_NUMBER);
         console.log('========================================');
         console.log('PAIRING CODE:', code);
